@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,16 +19,16 @@ namespace SchoolManagementApplciation
         SqlControl sql = new SqlControl();
         private void Button1_Click(object sender, EventArgs e)
         {
-            int studentId =((MainInterface)this.MdiParent).Services.GetStudentId();
-            int serviceId = ((ServiceID)cboname.SelectedItem).Id;
+            int studentId = ((MainInterface)this.MdiParent!).Services.GetStudentId();
+            int serviceId = ((ServiceID)cboname.SelectedItem!).Id;
             int type = -1;
-            ServiceID selectedItem = (ServiceID)cboname.SelectedItem;
+            ServiceID selectedItem = (ServiceID)cboname.SelectedItem!;
             if (selectedItem.recur == 4)
                 type = cbojoiningterm.SelectedIndex + 1;
             sql.addprams("@stu_id", studentId);
             sql.addprams("@serv_id", serviceId);
             sql.addprams("@term", type);
-            sql.addprams("@amount",selectedItem.Amount);
+            sql.addprams("@amount", selectedItem.Amount);
             sql.ExecProc("EXEC [dbo].[Insert_Sub]  @stu_id,@serv_id,@term,@amount");
             if (sql.exep != "")
             {
@@ -36,7 +36,7 @@ namespace SchoolManagementApplciation
                 return;
             }
             MessageBox.Show("Associated service", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            ((MainInterface)this.MdiParent).Services.Cboname_SelectedIndexChanged(sender, e);
+            ((MainInterface)this.MdiParent!).Services.Cboname_SelectedIndexChanged(sender, e);
             this.Close();
         }
 
@@ -51,9 +51,9 @@ namespace SchoolManagementApplciation
             {
                 ServiceID obj = new ServiceID();
                 obj.Id = (int)r["id"];
-                obj.Name = r["name"].ToString();
+                obj.Name = r["name"].ToString() ?? string.Empty;
                 obj.recur = (Int16)r["recur"];
-                obj.Amount = double.Parse(r["amount"].ToString());
+                obj.Amount = double.Parse(r["amount"].ToString() ?? "0");
                 cboname.Items.Add(obj);
             }
             cbojoiningterm.SelectedIndex = 0;
@@ -61,7 +61,7 @@ namespace SchoolManagementApplciation
         private class ServiceID
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
             public Int16 recur { get; set; }
             public double Amount { get; set; }
             public override string ToString()
@@ -72,8 +72,8 @@ namespace SchoolManagementApplciation
 
         private void Cboname_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ServiceID selectedItem = (ServiceID)cboname.SelectedItem;
-            if(selectedItem.recur == 4)
+            ServiceID selectedItem = (ServiceID)cboname.SelectedItem!;
+            if (selectedItem.recur == 4)
             {
                 label2.Visible = true;
                 cbojoiningterm.Visible = true;

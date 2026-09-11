@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -12,24 +12,28 @@ namespace SchoolManagementApplciation
 {
     class Utils
     {
+        // .NET 8: DllImport is still supported; use LibraryImport for source-generated P/Invoke in future
         [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = CharSet.Auto)]
         extern static bool DestroyIcon(IntPtr handle);
 
         public static Icon GetIcon(Bitmap bitmap)
         {
-            IntPtr Hicon = bitmap.GetHicon();
-            Icon newIcon = Icon.FromHandle(Hicon);
+            IntPtr hicon = bitmap.GetHicon();
+            // Clone the icon so we can safely destroy the GDI handle
+            Icon tempIcon = Icon.FromHandle(hicon);
+            Icon newIcon = (Icon)tempIcon.Clone();
+            DestroyIcon(hicon);
             return newIcon;
         }
 
-        public static MainInterface GetMainInterface()
+        public static MainInterface? GetMainInterface()
         {
-            return (MainInterface)Application.OpenForms["MainInterface"];
+            return Application.OpenForms["MainInterface"] as MainInterface;
         }
 
         public static string SaveImageToApplicationFolder(string path)
         {
-            string executablePath = Path.GetDirectoryName(Application.ExecutablePath);
+            string executablePath = Path.GetDirectoryName(Application.ExecutablePath) ?? AppContext.BaseDirectory;
             string directory = executablePath + "\\PicturesofStudent";
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
@@ -41,7 +45,7 @@ namespace SchoolManagementApplciation
         }
         public static string SaveDocumentToApplicationFolder(string path)
         {
-            string executablePath = Path.GetDirectoryName(Application.ExecutablePath);
+            string executablePath = Path.GetDirectoryName(Application.ExecutablePath) ?? AppContext.BaseDirectory;
             string directory = executablePath + "\\Documents";
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
@@ -55,7 +59,7 @@ namespace SchoolManagementApplciation
     public static class ExternMethods
     {
        
-        public static Type IsNumber(this object value)
+        public static Type? IsNumber(this object value)
         {
             if (value is sbyte)
                 return typeof(sbyte);

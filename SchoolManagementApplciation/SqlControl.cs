@@ -1,23 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+// Updated: Replaced System.Data.SqlClient with Microsoft.Data.SqlClient for .NET 8 compatibility
+using Microsoft.Data.SqlClient;
 
 namespace SchoolManagementApplciation
 {
     class SqlControl
     {
 
-        private System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(ConfigurationManager.AppSettings["connectionString"]);
-        private System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
+        private SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["connectionString"]);
+        private SqlCommand cmd = new SqlCommand();
 
-        public System.Data.SqlClient.SqlDataAdapter adapter = new System.Data.SqlClient.SqlDataAdapter();
+        public SqlDataAdapter adapter = new SqlDataAdapter();
         public DataSet data = new DataSet();
 
-        public List<System.Data.SqlClient.SqlParameter> prams = new List<System.Data.SqlClient.SqlParameter>();
+        public List<SqlParameter> prams = new List<SqlParameter>();
 
         public int count;
         public string exep;
@@ -29,11 +31,11 @@ namespace SchoolManagementApplciation
             try
             {
                 con.Open();
-                cmd = new System.Data.SqlClient.SqlCommand(query, con);
+                cmd = new SqlCommand(query, con);
                 prams.ForEach(x => cmd.Parameters.Add(x));
                 prams.Clear();
                 data = new DataSet();
-                adapter = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                adapter = new SqlDataAdapter(cmd);
                 count = adapter.Fill(data, query);
                 con.Close();
             }
@@ -51,7 +53,7 @@ namespace SchoolManagementApplciation
             try
             {
                 con.Open();
-                cmd = new System.Data.SqlClient.SqlCommand(query, con);
+                cmd = new SqlCommand(query, con);
                 prams.ForEach(x => cmd.Parameters.Add(x));
                 prams.Clear();
                 cmd.ExecuteNonQuery();
@@ -66,7 +68,7 @@ namespace SchoolManagementApplciation
         }
         public void addprams(string name, object value)
         {
-            System.Data.SqlClient.SqlParameter para = new System.Data.SqlClient.SqlParameter(name, value);
+            SqlParameter para = new SqlParameter(name, value);
             prams.Add(para);
         }
     }

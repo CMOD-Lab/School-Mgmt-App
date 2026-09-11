@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,11 +32,9 @@ namespace SchoolManagementApplciation
             {
                 StudentId obj = new StudentId();
                 obj.ID = (int)r["Id"];
-                obj.Name = r["Student"].ToString();
+                obj.Name = r["Student"].ToString() ?? string.Empty;
                 cboname.Items.Add(obj);
             }
-            
-
         }
 
         public void Cboname_SelectedIndexChanged(object sender, EventArgs e)
@@ -45,7 +43,6 @@ namespace SchoolManagementApplciation
             sql.ExecSql("select * from dbo.show_students(@name)");
             if (sql.exep != "")
             {
-
                 MessageBox.Show(sql.exep);
                 return;
             }
@@ -87,12 +84,12 @@ namespace SchoolManagementApplciation
         }
         public int GetStudentId()
         {
-            return ((StudentId)cboname.SelectedItem).ID;
+            return ((StudentId)cboname.SelectedItem!).ID;
         }
         private class StudentId
         {
             public int ID { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
 
             public override string ToString()
             {
@@ -104,7 +101,7 @@ namespace SchoolManagementApplciation
         {
             try
             {
-                sql.addprams("@id", (int)dataGridView1.CurrentRow.Cells[0].Value);
+                sql.addprams("@id", (int)dataGridView1.CurrentRow!.Cells[0].Value);
                 sql.ExecSql("delete from subscriptions where id = @id");
                 if (sql.exep != "")
                     MessageBox.Show(sql.exep);
