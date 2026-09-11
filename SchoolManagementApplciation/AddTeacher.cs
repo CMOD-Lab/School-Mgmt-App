@@ -68,7 +68,8 @@ namespace SchoolManagementApplciation
             sql.addprams("@fee", double.Parse(ComboBox1.Text));
             sql.addprams("@join", dtp.Value);
             sql.addprams("@pic", imageT.ImageLocation);
-            sql.ExecProc("exec insert_teacher @name,@gender,@dob,@desig,@qua,@add,@phone,@email,@fee,@join,@pic");
+            // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+            sql.ExecProc("CALL insert_teacher(@name,@gender,@dob,@desig,@qua,@add,@phone,@email,@fee,@join,@pic)");
             if (sql.exep != "")
             {
                MessageBox.Show(sql.exep);

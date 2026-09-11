@@ -5,21 +5,21 @@ using System.Configuration;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-// Updated: Replaced System.Data.SqlClient with Microsoft.Data.SqlClient for .NET 8 compatibility
-using Microsoft.Data.SqlClient;
+// Updated: Replaced Microsoft.Data.SqlClient with Npgsql for PostgreSQL compatibility
+using Npgsql;
 
 namespace SchoolManagementApplciation
 {
     class SqlControl
     {
 
-        private SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["connectionString"]);
-        private SqlCommand cmd = new SqlCommand();
+        private NpgsqlConnection con = new NpgsqlConnection(ConfigurationManager.AppSettings["connectionString"]);
+        private NpgsqlCommand cmd = new NpgsqlCommand();
 
-        public SqlDataAdapter adapter = new SqlDataAdapter();
+        public NpgsqlDataAdapter adapter = new NpgsqlDataAdapter();
         public DataSet data = new DataSet();
 
-        public List<SqlParameter> prams = new List<SqlParameter>();
+        public List<NpgsqlParameter> prams = new List<NpgsqlParameter>();
 
         public int count;
         public string exep;
@@ -31,11 +31,11 @@ namespace SchoolManagementApplciation
             try
             {
                 con.Open();
-                cmd = new SqlCommand(query, con);
+                cmd = new NpgsqlCommand(query, con);
                 prams.ForEach(x => cmd.Parameters.Add(x));
                 prams.Clear();
                 data = new DataSet();
-                adapter = new SqlDataAdapter(cmd);
+                adapter = new NpgsqlDataAdapter(cmd);
                 count = adapter.Fill(data, query);
                 con.Close();
             }
@@ -53,7 +53,7 @@ namespace SchoolManagementApplciation
             try
             {
                 con.Open();
-                cmd = new SqlCommand(query, con);
+                cmd = new NpgsqlCommand(query, con);
                 prams.ForEach(x => cmd.Parameters.Add(x));
                 prams.Clear();
                 cmd.ExecuteNonQuery();
@@ -68,7 +68,7 @@ namespace SchoolManagementApplciation
         }
         public void addprams(string name, object value)
         {
-            SqlParameter para = new SqlParameter(name, value);
+            NpgsqlParameter para = new NpgsqlParameter(name, value);
             prams.Add(para);
         }
     }

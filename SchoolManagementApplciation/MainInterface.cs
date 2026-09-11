@@ -54,7 +54,8 @@ namespace SchoolManagementApplciation
                 NotifyIcon1.BalloonTipTitle = "Fee Info";
                 NotifyIcon1.ShowBalloonTip(100);
             }
-            sqlm.ExecProc("exec update_leaves");
+            // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+            sqlm.ExecProc("CALL update_leaves()");
             sqlm.ExecSql("");
         }
 

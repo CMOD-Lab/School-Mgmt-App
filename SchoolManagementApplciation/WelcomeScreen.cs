@@ -20,7 +20,8 @@ namespace SchoolManagementApplciation
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            new SqlControl().ExecProc("exec dbo.update_fees");
+            // Updated: Replaced SQL Server EXEC dbo. syntax with PostgreSQL CALL syntax
+            new SqlControl().ExecProc("CALL update_fees()");
             this.Close();
         }
     }

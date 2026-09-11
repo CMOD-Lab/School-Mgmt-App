@@ -63,7 +63,8 @@ namespace SchoolManagementApplciation
             sql.addprams("@name", cboname.Text);
             sql.addprams("@date", DateTime.Now.Date);
             sql.addprams("@amount", double.Parse(txtpay.Text));
-            sql.ExecProc("exec insert_transaction @name,@date,@amount");
+            // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+            sql.ExecProc("CALL insert_transaction(@name,@date,@amount)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);
@@ -87,7 +88,8 @@ namespace SchoolManagementApplciation
         {
             SqlControl sql = new SqlControl();
             sql.addprams("@name", cboname.Text);
-            sql.ExecSql("select * from dbo.show_students(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_students(@name)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);
@@ -143,7 +145,8 @@ namespace SchoolManagementApplciation
         {
             SqlControl sql = new SqlControl();
             sql.addprams("@name", cboname.Text);
-            sql.ExecSql("select *From show_students(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_students(@name)");
             SqlControl sql1 = new SqlControl();
             sql1.addprams("@name", cboname.Text);
             sql1.ExecSql("select count(*) as counts From transactions");

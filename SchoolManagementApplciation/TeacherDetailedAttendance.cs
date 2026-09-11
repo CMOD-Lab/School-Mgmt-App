@@ -21,7 +21,7 @@ namespace SchoolManagementApplciation
         {
             this.Icon = Utils.GetIcon(SchoolManagementApplciation.Properties.Resources._1459676288_cmyk_04);
             dtp.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            sql.ExecSql("Select *from teacher");
+            sql.ExecSql("Select * from teacher");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);
@@ -41,7 +41,8 @@ namespace SchoolManagementApplciation
         {
             sql.addprams("@name", cboname.Text);
             sql.addprams("@date", dtp.Value);
-            sql.ExecSql("select *From dbo.show_Tattendancenamedate(@name,@date)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_Tattendancenamedate(@name,@date)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);
@@ -68,7 +69,8 @@ namespace SchoolManagementApplciation
             else
             {
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select *from dbo.show_Tattendance(@date)");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_Tattendance(@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -82,7 +84,8 @@ namespace SchoolManagementApplciation
         private void bnsingle_Click(System.Object sender, System.EventArgs e)
         {
             sql.addprams("@name", cboname.Text);
-            sql.ExecSql("select *from dbo.show_Tattendances(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_Tattendances(@name)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);

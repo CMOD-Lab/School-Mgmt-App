@@ -21,7 +21,8 @@ namespace SchoolManagementApplciation
             this.Icon = Utils.GetIcon(SchoolManagementApplciation.Properties.Resources._1459676753_vector_65_04);
             SqlControl sql = new SqlControl();
             sql.addprams("@name", txtsearch.Text);
-            sql.ExecSql("Select * from dbo.show_fee(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("Select * from show_fee(@name)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);
@@ -34,7 +35,8 @@ namespace SchoolManagementApplciation
         {
             SqlControl sql = new SqlControl();
             sql.addprams("@name", txtsearch.Text);
-            sql.ExecSql("Select * from dbo.show_fee(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("Select * from show_fee(@name)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);

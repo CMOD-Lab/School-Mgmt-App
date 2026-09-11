@@ -23,7 +23,8 @@ namespace SchoolManagementApplciation
         {
             this.Icon = Utils.GetIcon(SchoolManagementApplciation.Properties.Resources._1459676422_Teacher_male_24);
             sql.addprams("@name", TextBox1.Text);
-            sql.ExecSql("Select * from dbo.teacher_show(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("Select * from teacher_show(@name)");
             if (sql.exep != "")
                 MessageBox.Show(sql.exep);
             bind.DataSource = sql.data.Tables[0];
@@ -34,7 +35,8 @@ namespace SchoolManagementApplciation
         private void TextBox1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             sql.addprams("@name", TextBox1.Text);
-            sql.ExecSql("Select * from dbo.teacher_show(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("Select * from teacher_show(@name)");
             if (sql.exep != "")
                 MessageBox.Show(sql.exep);
             bind.DataSource = sql.data.Tables[0];
@@ -49,7 +51,8 @@ namespace SchoolManagementApplciation
                 sql.ExecSql("select * from teacher T left join gender G on G.id = T.gender left join designation D on D.id = T.designation where T.name = @name");
                 string data = JsonConvert.SerializeObject(sql.data);
                 sql.addprams("@data", data);
-                sql.ExecSql("insert into archive(date,data) values(GETDATE(),@data);");
+                // Updated: Replaced GETDATE() with NOW() for PostgreSQL compatibility
+                sql.ExecSql("insert into archive(date,data) values(NOW(),@data);");
                 sql.addprams("@name", DataGridView1.CurrentRow.Cells[0].Value);
                 sql.ExecSql("delete from teacher where name = @name");
                 if (sql.exep != "")

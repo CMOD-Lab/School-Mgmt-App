@@ -44,13 +44,15 @@ namespace SchoolManagementApplciation
                 sql.addprams("@name", cboname.Text);
                 sql.addprams("@sub", cbosub.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select *from dbo.show_marks(@name,@sub,@date)");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_marks(@name,@sub,@date)");
                 if (sql.count <= 0)
                 {
                     sql.addprams("@name", cboname.Text);
                     sql.addprams("@sub", cbosub.Text);
                     sql.addprams("@date", dtp.Value);
-                    sql.ExecProc("Exec insert_marks @date,NULL,@sub,@name");
+                    // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+                    sql.ExecProc("CALL insert_marks(@date,NULL,@sub,@name)");
                     bnload_Click(sender, e);
                     return;
                 }
@@ -67,7 +69,8 @@ namespace SchoolManagementApplciation
             {
                 sql.addprams("@name", cboname.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select * From dbo.show_marks(@name,default,@date)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_marks(@name,NULL,@date)");
                 bind.DataSource = sql.data.Tables[0];
                 DataGridView1.DataSource = bind;
                 if (sql.exep != "")
@@ -81,7 +84,8 @@ namespace SchoolManagementApplciation
             {
                 sql.addprams("@sub", cbosub.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select * from dbo.show_marks(default,@sub,@date)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_marks(NULL,@sub,@date)");
                 bind.DataSource = sql.data.Tables[0];
                 DataGridView1.DataSource = bind;
                 if (sql.exep != "")
@@ -118,7 +122,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@sub", this.DataGridView1.Rows[this.DataGridView1.CurrentCell.RowIndex].Cells[1].Value);
                 sql.addprams("@date", dtp.Value);
                 sql.addprams("@mark", this.DataGridView1.CurrentCell.Value);
-                sql.ExecProc("exec update_marks @name,@sub,@date,@mark");
+                // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+                sql.ExecProc("CALL update_marks(@name,@sub,@date,@mark)");
                 bnload_Click(sender, e);
                 if (sql.exep != "")
                 {
@@ -233,7 +238,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@name", this.DataGridView1.Rows[this.DataGridView1.CurrentCell.RowIndex].Cells[0].Value);
                 sql.addprams("@sub", this.DataGridView1.Rows[this.DataGridView1.CurrentCell.RowIndex].Cells[1].Value);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecProc("exec delete_marks @name,@sub,@date");
+                // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+                sql.ExecProc("CALL delete_marks(@name,@sub,@date)");
                 MessageBox.Show("The Mark Details Has Been Deleted", "Success", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 bnload_Click(sender, e);
             }
@@ -260,7 +266,8 @@ namespace SchoolManagementApplciation
             SqlControl sql = new SqlControl();
             sql.addprams("@name", cboname.Text);
             sql.addprams("@date", dtp.Value);
-            sql.ExecSql("select * from dbo.show_marks(@name,default,@date)");
+            // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+            sql.ExecSql("select * from show_marks(@name,NULL,@date)");
 
             Font fontss = new Font("Arial", 22);
             Font fonts = new Font("Arial", 16);

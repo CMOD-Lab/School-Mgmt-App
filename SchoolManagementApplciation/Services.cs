@@ -40,7 +40,8 @@ namespace SchoolManagementApplciation
         public void Cboname_SelectedIndexChanged(object sender, EventArgs e)
         {
             sql.addprams("@name", cboname.Text);
-            sql.ExecSql("select * from dbo.show_students(@name)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_students(@name)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);

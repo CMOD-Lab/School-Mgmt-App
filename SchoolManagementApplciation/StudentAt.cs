@@ -37,12 +37,14 @@ namespace SchoolManagementApplciation
                 if (cbosection.Items.Contains(r["section"]) == false)
                     cbosection.Items.Add(r["section"]);
             }
-            sql.ExecProc("exec update_leaves");
+            // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+            sql.ExecProc("CALL update_leaves()");
         }
         private void see()
         {
             SqlControl sql2 = new SqlControl();
-            sql2.ExecProc("exec update_leaves");
+            // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+            sql2.ExecProc("CALL update_leaves()");
             if (cotn > 0)
             {
                 int numm = 1;
@@ -66,7 +68,8 @@ namespace SchoolManagementApplciation
             sql.addprams("@class", cboclass.Text);
             sql.addprams("@section", cbosection.Text);
             sql.addprams("@date", dtp.Value);
-            sql.ExecSql("select * from dbo.show_stuat(@class,@section,@date) order by name asc");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_stuat(@class,@section,@date) order by name asc");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);
@@ -110,7 +113,8 @@ namespace SchoolManagementApplciation
             {
                 sql.addprams("@class", cboclass.Text);
                 sql.addprams("@section", cbosection.Text);
-                sql.ExecSql("select * from dbo.show_atclass(@class,@section) order by name asc");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_atclass(@class,@section) order by name asc");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -174,7 +178,8 @@ namespace SchoolManagementApplciation
                 SqlControl sql = new SqlControl();
                 sql.addprams("@class", cboclass.Text);
                 sql.addprams("@section", cbosection.Text);
-                sql.ExecSql("select * from dbo.show_atclass(@class,@section) order by name asc");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_atclass(@class,@section) order by name asc");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -190,7 +195,8 @@ namespace SchoolManagementApplciation
                         sql1.addprams("@class", cboclass.Text);
                         sql1.addprams("@section", cbosection.Text);
                         sql1.addprams("@name", pan.Controls["Names" + num.ToString()].Text);
-                        sql1.ExecSql("select * from dbo.show_atclassname(@class,@section,@name)");
+                        // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                        sql1.ExecSql("select * from show_atclassname(@class,@section,@name)");
                         PictureBox1.ImageLocation = sql1.data.Tables[0].Rows[0]["pic"].ToString();
                         lblnames.Text = sql1.data.Tables[0].Rows[0]["name"].ToString();
                         lblgender.Text = sql1.data.Tables[0].Rows[0]["gender"].ToString();
@@ -214,7 +220,8 @@ namespace SchoolManagementApplciation
                 SqlControl sql = new SqlControl();
                 sql.addprams("@class", cboclass.Text);
                 sql.addprams("@section", cbosection.Text);
-                sql.ExecSql("select * from dbo.show_atclass(@class,@section) order by name asc");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_atclass(@class,@section) order by name asc");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -240,7 +247,8 @@ namespace SchoolManagementApplciation
                     sql1.addprams("@date", dtp.Value);
                     ComboBox combo = (ComboBox)pan.Controls["Combos" + num.ToString()];
                     sql1.addprams("@at", combo.SelectedIndex + 1);
-                    sql1.ExecProc("exec insert_at @name,@date,@at");
+                    // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+                    sql1.ExecProc("CALL insert_at(@name,@date,@at)");
                     if (sql1.exep != "")
                     {
                         MessageBox.Show(sql1.exep);
@@ -273,7 +281,8 @@ namespace SchoolManagementApplciation
                 {
                     sql.addprams("@class", cboclass.Text);
                     sql.addprams("@section", cbosection.Text);
-                    sql.ExecSql("select * from dbo.show_atclass(@class,@section) order by name asc");
+                    // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                    sql.ExecSql("select * from show_atclass(@class,@section) order by name asc");
                     if (sql.exep != "")
                     {
                         MessageBox.Show(sql.exep);
@@ -304,7 +313,8 @@ namespace SchoolManagementApplciation
             SqlControl sql = new SqlControl();
             sql.addprams("@name", lblnames.Text);
             sql.addprams("@date", dtp.Value.Month);
-            sql.ExecSql("select *from dbo.get_dates(@name,@date)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from get_dates(@name,@date)");
             var loopTo = sql.count;
             for (var j = 1; j <= loopTo; j++)
                 ListBox1.Items.Add(sql.data.Tables[0].Rows[0]["dates"].ToString());

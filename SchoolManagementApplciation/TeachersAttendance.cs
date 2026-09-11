@@ -42,7 +42,8 @@ namespace SchoolManagementApplciation
                 {
                     SqlControl sql1 = new SqlControl();
                     sql1.addprams("@name", pan.Controls["Names" + num.ToString()].Text);
-                    sql1.ExecSql("Select *From dbo.teacher_shows(@name)");
+                    // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                    sql1.ExecSql("Select * from teacher_shows(@name)");
                     if (sql1.exep != "")
                     {
                         MessageBox.Show(sql1.exep);
@@ -84,7 +85,8 @@ namespace SchoolManagementApplciation
             }
             SqlControl sql = new SqlControl();
             sql.addprams("@date", dtp.Value);
-            sql.ExecSql("select * from dbo.show_Tattendance(@date)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_Tattendance(@date)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);
@@ -215,7 +217,8 @@ namespace SchoolManagementApplciation
                 ComboBox combo = new ComboBox();
                 combo = (ComboBox)pan.Controls["Combos" + num.ToString()];
                 sql.addprams("@at", combo.SelectedIndex + 1);
-                sql.ExecProc("exec insert_Tat @name,@date,@at");
+                // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+                sql.ExecProc("CALL insert_Tat(@name,@date,@at)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -274,7 +277,8 @@ namespace SchoolManagementApplciation
             SqlControl sql = new SqlControl();
             sql.addprams("@date", dtp.Value.Month);
             sql.addprams("@name", lbltname.Text);
-            sql.ExecSql("select * from dbo.get_datess(@name,@date)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from get_datess(@name,@date)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);

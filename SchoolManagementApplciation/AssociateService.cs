@@ -29,7 +29,8 @@ namespace SchoolManagementApplciation
             sql.addprams("@serv_id", serviceId);
             sql.addprams("@term", type);
             sql.addprams("@amount", selectedItem.Amount);
-            sql.ExecProc("EXEC [dbo].[Insert_Sub]  @stu_id,@serv_id,@term,@amount");
+            // Updated: Replaced SQL Server EXEC [dbo].[proc] syntax with PostgreSQL CALL syntax
+            sql.ExecProc("CALL Insert_Sub(@stu_id,@serv_id,@term,@amount)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

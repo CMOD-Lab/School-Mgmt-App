@@ -20,6 +20,7 @@ namespace SchoolManagementApplciation
         private int ids;
         private void Edits_Load(System.Object sender, System.EventArgs e)
         {
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
             sql.ExecSql("select distinct(class) as [class] from class");
             foreach (DataRow r in sql.data.Tables[0].Rows)
             {
@@ -35,7 +36,8 @@ namespace SchoolManagementApplciation
             ids = ((MainInterface)this.MdiParent).ManageStudents.StudentIdToEdit;
 
             sql.addprams("@id", ids);
-            sql.ExecSql("select * from dbo.show_studing(@id)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_studing(@id)");
 
             if (sql.exep != "")
             {
@@ -85,7 +87,8 @@ namespace SchoolManagementApplciation
             sql.addprams("@section", cbostream.Text);
             sql.addprams("@email", txtemail.Text);
             sql.addprams("@pic", PictureBox1.ImageLocation);
-            sql.ExecProc("exec Insert_studing @id,@name,@gender,@add,@phone,@class,@section,@email,@pic");
+            // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL/SELECT syntax
+            sql.ExecProc("CALL Insert_studing(@id,@name,@gender,@add,@phone,@class,@section,@email,@pic)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);

@@ -112,7 +112,8 @@ namespace SchoolManagementApplciation
             sql.addprams("@gender", cbogender.SelectedIndex + 1);
             sql.addprams("@class", cboclass.Text);
             sql.addprams("@section", cbostream.Text);
-            sql.ExecProc("exec Insert_class @gender,@name,@Fname,@Mname,@Rnum,@add,@phone,@pic,@email ,@date ,@class,@section");
+            // Updated: Replaced SQL Server EXEC syntax with PostgreSQL CALL syntax
+            sql.ExecProc("CALL Insert_class(@gender,@name,@Fname,@Mname,@Rnum,@add,@phone,@pic,@email,@date,@class,@section)");
             if (sql.exep != "")
             {
                 MessageBox.Show(sql.exep);

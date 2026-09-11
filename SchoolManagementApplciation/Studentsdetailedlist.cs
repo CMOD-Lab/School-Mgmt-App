@@ -56,7 +56,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@class", cboclass.Text);
                 sql.addprams("@section", cbosection.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select * from dbo.show_classsection(@name,@class,@section,@date)");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_classsection(@name,@class,@section,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -67,7 +68,8 @@ namespace SchoolManagementApplciation
             {
                 sql.addprams("@name", cboname.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select * from dbo.show_classsection(@name,default,default,@date)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_classsection(@name,NULL,NULL,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -86,7 +88,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@class", cboclass.Text);
                 sql.addprams("@section", cbosection.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select * from dbo.show_classsection(@name,@class,@section,@date)");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_classsection(@name,@class,@section,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -98,7 +101,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@date", dtp.Value);
                 sql.addprams("@section", cbosection.Text);
                 sql.addprams("@class", cboclass.Text);
-                sql.ExecSql("select * from dbo.show_classsection(default,@class,@section,@date)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_classsection(NULL,@class,@section,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -110,7 +114,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@name", cboname.Text);
                 sql.addprams("@class", cboclass.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select * from dbo.show_classsection(@name,@class,default,@date)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_classsection(@name,@class,NULL,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -129,7 +134,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@class", cboclass.Text);
                 sql.addprams("@section", cbosection.Text);
                 sql.addprams("@date", dtp.Value);
-                sql.ExecSql("select * from dbo.show_classsection(@name,@class,@section,@date)");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_classsection(@name,@class,@section,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -141,7 +147,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@date", dtp.Value);
                 sql.addprams("@section", cbosection.Text);
                 sql.addprams("@class", cboclass.Text);
-                sql.ExecSql("select * from dbo.show_classsection(default,@class,@section,@date)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_classsection(NULL,@class,@section,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -153,7 +160,8 @@ namespace SchoolManagementApplciation
                 sql.addprams("@name", cboname.Text);
                 sql.addprams("@date", dtp.Value);
                 sql.addprams("@section", cbosection.Text);
-                sql.ExecSql("select * from dbo.show_classsection(@name,default,@section,@date)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_classsection(@name,NULL,@section,@date)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);
@@ -226,7 +234,8 @@ namespace SchoolManagementApplciation
             if (cboname.Text != "")
             {
                 sql.addprams("@name", cboname.Text);
-                sql.ExecSql("select *from dbo.show_classname(@name,default,default)");
+                // Updated: Removed dbo. schema prefix; replaced DEFAULT keyword with NULL for PostgreSQL
+                sql.ExecSql("select * from show_classname(@name,NULL,NULL)");
                 if (sql.exep != "")
                 {
                     MessageBox.Show(sql.exep);

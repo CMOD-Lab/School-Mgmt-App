@@ -22,7 +22,8 @@ namespace SchoolManagementApplciation
         public void ManageStudents_Load(System.Object sender, System.EventArgs e)
         {
             this.Icon = Utils.GetIcon(SchoolManagementApplciation.Properties.Resources._1459676203_graduation);
-            sql.ExecSql("select * from dbo.show_stud()");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("select * from show_stud()");
             if (sql.exep != "")
                 MessageBox.Show(sql.exep);
 
@@ -37,7 +38,8 @@ namespace SchoolManagementApplciation
             else
             {
                 sql.addprams("@name", txtsearch.Text);
-                sql.ExecSql("select * from dbo.show_studs(@name)");
+                // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+                sql.ExecSql("select * from show_studs(@name)");
                 if (sql.exep != "")
                     MessageBox.Show(sql.exep);
 
@@ -65,7 +67,8 @@ namespace SchoolManagementApplciation
                 sql.ExecSql("select * from students S left join gender G on S.gender = g.id left join class C on S.class = C.id where S.name = @name");
                 string data = JsonConvert.SerializeObject(sql.data);
                 sql.addprams("@data", data);
-                sql.ExecSql("insert into archive(date,data) values(GETDATE(),@data);");
+                // Updated: Replaced GETDATE() with NOW() for PostgreSQL compatibility
+                sql.ExecSql("insert into archive(date,data) values(NOW(),@data);");
                 sql.addprams("@name", DataGridView1.CurrentRow.Cells[0].Value);
                 sql.ExecSql("delete from students where name = @name");
                 if (sql.exep != "")
@@ -82,7 +85,8 @@ namespace SchoolManagementApplciation
         private void bnprint_Click(System.Object sender, System.EventArgs e)
         {
             sql.addprams("@id", DataGridView1.CurrentRow.Cells[0].Value);
-            sql.ExecSql("Select id from students where id = dbo.getid(@id)");
+            // Updated: Removed dbo. schema prefix for PostgreSQL compatibility
+            sql.ExecSql("Select id from students where id = getid(@id)");
             if (sql.count > 0)
                 _StudentIdToEdit = (int)sql.data.Tables[0].Rows[0]["id"];
             ((MainInterface)this.MdiParent).Edits.CreateOrShow();
